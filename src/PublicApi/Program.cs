@@ -20,6 +20,24 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
 var app = builder.Build();
 
+app.Logger.LogInformation("PublicApi App Created");
+app.Logger.LogInformation("Seeding Database");
+
+using (var scope = app.Services.CreateScope())
+{
+    var provider = scope.ServiceProvider;
+    try
+    {
+        var context = provider.GetRequiredService<CatalogContext>();
+        await CatalogContextSeed.SeedAsync(context, app.Logger);
+
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "An error occurred seeding in DB");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
