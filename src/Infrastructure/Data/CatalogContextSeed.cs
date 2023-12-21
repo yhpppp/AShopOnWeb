@@ -30,6 +30,11 @@ namespace Infrastructure.Data
                     await context.CatalogTypes.AddRangeAsync(GetPreconfiguredCatalogTypes());
                     await context.SaveChangesAsync();
                 }
+                if (!await context.CatalogItems.AnyAsync())
+                {
+                    await context.CatalogItems.AddRangeAsync(GetPerconfiguredCatalogItems());
+                    await context.SaveChangesAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -41,7 +46,7 @@ namespace Infrastructure.Data
             }
         }
 
-        static  IEnumerable<CatalogType> GetPreconfiguredCatalogTypes()
+        static IEnumerable<CatalogType> GetPreconfiguredCatalogTypes()
         {
             return new List<CatalogType>()
             {
@@ -56,6 +61,22 @@ namespace Infrastructure.Data
             {
                 new ("Azure"),
                 new(".NET")
+            };
+        }
+
+        static IEnumerable<CatalogItem> GetPerconfiguredCatalogItems()
+        {
+            return new List<CatalogItem>() { new(1, 1, "体恤1", "描述", 20.5M, "http://catalogbaseurltobereplaced/images/products/1.png"),
+            new(1, 1, "体恤2", "描述", 20.5M, "http://catalogbaseurltobereplaced/images/products/1.png") ,
+            new(1, 1, "体恤3", "描述", 20.5M, "http://catalogbaseurltobereplaced/images/products/1.png") ,
+            new(1, 1, "体恤4", "描述", 20.5M, "http://catalogbaseurltobereplaced/images/products/1.png") ,
+            new(1, 1, "体恤5", "描述", 20.5M, "http://catalogbaseurltobereplaced/images/products/1.png") ,
+            new(1, 2, "sheet1", "描述", 8, "http://catalogbaseurltobereplaced/images/products/2.png") ,
+            new(1, 2, "sheet2", "描述", 8, "http://catalogbaseurltobereplaced/images/products/2.png") ,
+            new(1, 2, "sheet3", "描述", 8, "http://catalogbaseurltobereplaced/images/products/2.png") ,
+            new(1, 2, "sheet4", "描述", 8, "http://catalogbaseurltobereplaced/images/products/2.png") ,
+            new(1, 2, "sheet5", "描述", 8, "http://catalogbaseurltobereplaced/images/products/2.png") ,
+
             };
         }
     }
