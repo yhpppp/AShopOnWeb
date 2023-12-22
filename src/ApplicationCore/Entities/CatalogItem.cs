@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Interfaces;
+using Ardalis.GuardClauses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,43 @@ namespace ApplicationCore.Entities
             Description = description;
             Price = price;
             PictureUrl = pictureUrl;
+        }
+
+        public void UpdateType(int catalogTypeId)
+        {
+            Guard.Against.Zero(catalogTypeId, nameof(catalogTypeId));
+            CatalogTypeId = CatalogTypeId;
+        }
+
+        public void UpdateBrand(int catalogBrandId)
+        {
+            Guard.Against.Zero(catalogBrandId, nameof(catalogBrandId));
+            CatalogBrandId = CatalogBrandId;
+        }
+        public void UpdateDetails(CatalogItemDetails details)
+        {
+            Guard.Against.NullOrEmpty(details.Name, nameof(details.Name));
+            Guard.Against.NullOrEmpty(details.Description, nameof(details.Description));
+            Guard.Against.NegativeOrZero(Price, nameof(details.Price));
+
+            Name = details.Name;
+            Description = details.Description;
+            Price = details.Price;
+        }
+
+        public readonly record struct CatalogItemDetails
+        {
+            public string? Name { get; }
+
+
+            public string? Description { get; }
+            public decimal Price { get; }
+            public CatalogItemDetails(string? name, string? description, decimal price)
+            {
+                Name = name;
+                Description = description;
+                Price = price;
+            }
         }
     }
 }
