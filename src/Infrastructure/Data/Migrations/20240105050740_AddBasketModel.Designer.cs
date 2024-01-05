@@ -3,6 +3,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    partial class CatalogContextModelSnapshot : ModelSnapshot
+    [Migration("20240105050740_AddBasketModel")]
+    partial class AddBasketModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,33 +49,6 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Baskets");
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.BasketAggregate.BasketItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BasketId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CatalogItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BasketId");
-
-                    b.ToTable("BasketItems");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.CatalogBrand", b =>
@@ -149,15 +125,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("CatalogTypes");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Entities.BasketAggregate.BasketItem", b =>
-                {
-                    b.HasOne("ApplicationCore.Entities.BasketAggregate.Basket", null)
-                        .WithMany("Items")
-                        .HasForeignKey("BasketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ApplicationCore.Entities.CatalogItem", b =>
                 {
                     b.HasOne("ApplicationCore.Entities.CatalogBrand", "CatalogBrand")
@@ -175,11 +142,6 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("CatalogBrand");
 
                     b.Navigation("CatalogType");
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.BasketAggregate.Basket", b =>
-                {
-                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

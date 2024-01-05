@@ -2,6 +2,7 @@ using ApplicationCore.Interfaces;
 using Infrastructure.Data;
 using MinimalApi.Endpoint.Extensions;
 using PublicApi;
+using PublicApi.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
+builder.Services.AddCoreServices();
 
 var app = builder.Build();
 

@@ -14,5 +14,10 @@ namespace ApplicationCore.Specifications
         {
             Query.Where(ci => ci.Name == name);
         }
+
+        public CatalogItemSpecification(int catalogId)
+        {
+            Query.Where(ci => ci.Id == catalogId);
+        }
     }
 }
